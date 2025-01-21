@@ -26,7 +26,9 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const [tableQuestions, setTableQuestions] = useState<{ [key: number]: TableQuestion }>({});
-  const [tableData, setTableData] = useState<{ [key: number]: any }>({});
+  type CellData = string | number;  // Hücrelerin veri türü hem string hem number olabilir
+
+  const [tableData, setTableData] = useState<{ [key: number]: { [column: string]: CellData } }>({});
   const [loadingQuestions, setLoadingQuestions] = useState<{ [key: number]: boolean }>({});
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
