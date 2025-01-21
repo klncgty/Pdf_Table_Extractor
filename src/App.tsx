@@ -51,7 +51,7 @@ function App() {
       const formData = new FormData();
       formData.append('file', file);
 
-      const uploadResponse = await axios.post('http://localhost:8000/upload', formData);
+      await axios.post('http://localhost:8000/upload', formData);
 
       setUploading(false);
       setProcessing(true);
