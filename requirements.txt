@@ -9,6 +9,7 @@ build==1.2.2.post1
 CacheControl==0.14.2
 Camelot==12.6.29
 camelot-py==1.0.0
+2to3
 certifi==2024.12.14
 cffi==1.17.1
 gunicorn
