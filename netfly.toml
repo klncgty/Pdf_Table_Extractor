@@ -3,4 +3,4 @@
   publish = "public"
 
 [build.environment]
-  PYTHON_VERSION = "3.12.8"
+  PYTHON_VERSION = "3.11.0"
