@@ -102,7 +102,7 @@ Tempita==0.6.0
 tesseract==0.1.3
 tokenizers==0.21.0
 tomlkit==0.13.2
-torch==2.1.0
+torch==1.11.0
 torchvision==0.12.0
 
 tqdm==4.67.1
