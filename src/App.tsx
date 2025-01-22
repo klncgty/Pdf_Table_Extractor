@@ -153,7 +153,7 @@ function App() {
         <div className="bg-white text-gray-800 rounded-lg shadow-xl p-8 mb-8">
           <div className="mb-6">
             <img
-              src=HeaderImage
+              src={HeaderImage}
               alt="Header Image"
               className="w-full h-auto rounded-lg shadow-md mb-4"
             />
@@ -302,7 +302,7 @@ function App() {
             className="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"
           >
             <img
-              src=LinkedInLogo
+              src={LinkedInLogo}
               alt="LinkedIn Logo"
               className="w-12 h-12 rounded-full shadow-lg"
             />
