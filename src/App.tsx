@@ -29,7 +29,7 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const [tableQuestions, setTableQuestions] = useState<{ [key: number]: TableQuestion }>({});
-  type CellData = string | number;  // Hücrelerin veri türü hem string hem number olabilir
+  type CellData = string | number;
 
   const [tableData, setTableData] = useState<{ [key: number]: { [column: string]: CellData } }>({});
   const [loadingQuestions, setLoadingQuestions] = useState<{ [key: number]: boolean }>({});
@@ -54,13 +54,13 @@ function App() {
       const formData = new FormData();
       formData.append('file', file);
 
-      const _uploadResponse = await axios.post('http://localhost:8000/upload', formData);
+      const _uploadResponse = await axios.post('https://pdf-table-processor.onrender.com/upload', formData);
 
       setUploading(false);
       setProcessing(true);
 
       const processResponse = await axios.get<ProcessResponse>(
-        `http://localhost:8000/process/${file.name}?output_format=both`
+        `https://pdf-table-processor.onrender.com/process/${file.name}?output_format=both`
       );
 
       setResults(processResponse.data);
@@ -69,7 +69,7 @@ function App() {
       for (let i = 0; i < processResponse.data.tables.length; i++) {
         const table = processResponse.data.tables[i];
         if (table.json_file) {
-          const jsonResponse = await axios.get(`http://localhost:8000/download/${table.json_file}`);
+          const jsonResponse = await axios.get(`https://pdf-table-processor.onrender.com/download/${table.json_file}`);
           setTableData(prev => ({
             ...prev,
             [i]: jsonResponse.data
@@ -83,11 +83,10 @@ function App() {
       setProcessing(false);
     }
   };
-  
 
   const handleDownload = async (filename: string) => {
     try {
-      const response = await axios.get(`http://localhost:8000/download/${filename}`, {
+      const response = await axios.get(`https://pdf-table-processor.onrender.com/download/${filename}`, {
         responseType: 'blob',
       });
 
@@ -125,7 +124,7 @@ function App() {
         table: tableData[tableIndex]
       });
       
-      const response = await axios.post('http://localhost:8000/ask', {
+      const response = await axios.post('https://pdf-table-processor.onrender.com/ask', {
         question: tableQuestion.question,
         table: Array.isArray(tableData[tableIndex]) 
           ? tableData[tableIndex] 
@@ -217,7 +216,7 @@ function App() {
                     <h3 className="text-xl font-semibold mb-4 text-gray-900">Table {index + 1}</h3>
                     <div className="grid grid-cols-1 gap-6">
                       <img
-                        src={`http://localhost:8000/download/${table.image_file}`}
+                        src={`https://pdf-table-processor.onrender.com/download/${table.image_file}`}
                         alt={`Table ${index + 1}`}
                         className="max-w-full h-auto rounded-lg shadow-sm border border-gray-200"
                       />
@@ -243,45 +242,26 @@ function App() {
                           </button>
                         )}
                       </div>
-
-                      {/* Question and Answer Section for each table */}
-                      <div className="mt-6 space-y-4">
-                        <div className="flex gap-2">
-                          <input
-                            type="text"
-                            value={tableQuestions[index]?.question || ''}
-                            onChange={(e) => handleQuestionChange(index, e.target.value)}
-                            className="flex-1 p-3 rounded-full border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            placeholder={"Tablo " + (index + 1) + "'e bir soru sorun"}
-
-                          />
-                          <button
-                            onClick={() => handleSubmitQuestion(index)}
-                            disabled={!tableData[index] || loadingQuestions[index]}
-                            className="px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 disabled:opacity-50 transition duration-300 flex items-center"
-                          >
-                            {loadingQuestions[index] ? (
-                              <>
-                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Loading...
-                              </>
-                            ) : (
-                              <>
-                                <Send className="w-4 h-4 mr-2" />
-                                Sor
-                              </>
-                            )}
-                          </button>
-                        </div>
-                        
-                        {/* Display answer if exists */}
+                      <div className="mt-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Ask a Question</label>
+                        <input
+                          type="text"
+                          value={tableQuestions[index]?.question || ''}
+                          onChange={(e) => handleQuestionChange(index, e.target.value)}
+                          className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                        <button
+                          onClick={() => handleSubmitQuestion(index)}
+                          disabled={loadingQuestions[index]}
+                          className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-md 
+                            hover:bg-blue-700 focus:outline-none disabled:opacity-50"
+                        >
+                          {loadingQuestions[index] ? 'Processing...' : 'Submit Question'}
+                        </button>
                         {tableQuestions[index]?.answer && (
-                          <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                            <p className="font-medium text-blue-800 mb-2">Cevap:</p>
-                            <p className="text-blue-700">{tableQuestions[index].answer}</p>
+                          <div className="mt-4">
+                            <strong>Answer:</strong>
+                            <p className="text-sm text-gray-800">{tableQuestions[index].answer}</p>
                           </div>
                         )}
                       </div>
@@ -292,26 +272,9 @@ function App() {
             </div>
           )}
         </div>
-
-        {/* LinkedIn Logo */}
-        <div className="fixed bottom-4 right-4">
-          <a
-            href="https://www.linkedin.com/in/klncgty/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-          >
-            <img
-              src={LinkedInLogo}
-              alt="LinkedIn Logo"
-              className="w-12 h-12 rounded-full shadow-lg"
-            />
-          </a>
-        </div>
       </div>
     </div>
   );
 }
 
 export default App;
-
