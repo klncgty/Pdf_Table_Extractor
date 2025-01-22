@@ -32,7 +32,6 @@ filelock==3.16.1
 fonttools==4.55.3
 fsspec==2024.12.0
 gmft==0.4.0
-gmft_pymupdf @ git+https://github.com/conjuncts/gmft_pymupdf.git@20ddfa49bcaf81963203b88f49be650565d8138e
 h11==0.14.0
 huggingface-hub==0.27.1
 idna==3.10
