@@ -4,7 +4,6 @@ annotated-types==0.7.0
 anyio==4.8.0
 av==14.0.1
 git+https://github.com/conjuncts/gmft_pymupdf.git
-lib2to3 
 build==1.2.2.post1
 CacheControl==0.14.2
 Camelot==12.6.29
