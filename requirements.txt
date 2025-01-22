@@ -92,7 +92,7 @@ setuptools==75.8.0
 shellingham==1.5.4
 six==1.17.0
 sniffio==1.3.1
-SQLAlchemy==0.7.10
+SQLAlchemy== 2.0.37
 sqlalchemy-migrate==0.11.0
 sqlparse==0.5.3
 starlette==0.36.3
