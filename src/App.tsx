@@ -1,21 +1,10 @@
 import React, { useState } from 'react';
 import { Upload, Download, Send } from 'lucide-react';
-import axios from 'axios';
+import { uploadPDF, processPDF, downloadFile, askQuestion } from './lib/api';
+import type { ProcessResponse } from './types';
 
 import HeaderImage from './3.png';
 import LinkedInLogo from './4.png';
-
-interface ProcessedTable {
-  data_file?: string;
-  json_file?: string;
-  csv_file?: string;
-  image_file: string;
-}
-
-interface ProcessResponse {
-  tables: ProcessedTable[];
-  total_tables: number;
-}
 
 interface TableQuestion {
   question: string;
@@ -30,7 +19,6 @@ function App() {
   const [uploading, setUploading] = useState<boolean>(false);
   const [tableQuestions, setTableQuestions] = useState<{ [key: number]: TableQuestion }>({});
   type CellData = string | number;
-
   const [tableData, setTableData] = useState<{ [key: number]: { [column: string]: CellData } }>({});
   const [loadingQuestions, setLoadingQuestions] = useState<{ [key: number]: boolean }>({});
 
@@ -51,34 +39,29 @@ function App() {
     setError(null);
 
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      const _uploadResponse = await axios.post('https://pdf-table-processor.onrender.com/upload', formData);
-
+      await uploadPDF(file);
       setUploading(false);
       setProcessing(true);
 
-      const processResponse = await axios.get<ProcessResponse>(
-        `https://pdf-table-processor.onrender.com/process/${file.name}?output_format=both`
-      );
-
-      setResults(processResponse.data);
+      const processResult = await processPDF(file.name, 'both');
+      setResults(processResult);
 
       // Load JSON data for each table
-      for (let i = 0; i < processResponse.data.tables.length; i++) {
-        const table = processResponse.data.tables[i];
+      for (let i = 0; i < processResult.tables.length; i++) {
+        const table = processResult.tables[i];
         if (table.json_file) {
-          const jsonResponse = await axios.get(`https://pdf-table-processor.onrender.com/download/${table.json_file}`);
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/download/${table.json_file}`);
+          const jsonData = await response.json();
           setTableData(prev => ({
             ...prev,
-            [i]: jsonResponse.data
+            [i]: jsonData
           }));
         }
       }
     } catch (err) {
+      console.error('Upload error:', err);
+      setError(err instanceof Error ? err.message : 'An error occurred during upload');
       setUploading(false);
-      setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setProcessing(false);
     }
@@ -86,18 +69,17 @@ function App() {
 
   const handleDownload = async (filename: string) => {
     try {
-      const response = await axios.get(`https://pdf-table-processor.onrender.com/download/${filename}`, {
-        responseType: 'blob',
-      });
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const blob = await downloadFile(filename);
+      const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', filename);
       document.body.appendChild(link);
       link.click();
       link.remove();
+      window.URL.revokeObjectURL(url);
     } catch (err) {
+      console.error('Download error:', err);
       setError(err instanceof Error ? err.message : 'Download failed');
     }
   };
@@ -119,27 +101,17 @@ function App() {
     setLoadingQuestions(prev => ({ ...prev, [tableIndex]: true }));
 
     try {
-      console.log('Sending request with:', {
-        question: tableQuestion.question,
-        table: tableData[tableIndex]
-      });
+      const response = await askQuestion(tableQuestion.question, tableData[tableIndex]);
       
-      const response = await axios.post('https://pdf-table-processor.onrender.com/ask', {
-        question: tableQuestion.question,
-        table: Array.isArray(tableData[tableIndex]) 
-          ? tableData[tableIndex] 
-          : [tableData[tableIndex]] // Ensure table data is an array
-      });
-
       setTableQuestions(prev => ({
         ...prev,
         [tableIndex]: {
           ...prev[tableIndex],
-          answer: response.data.answer
+          answer: response.answer
         }
       }));
     } catch (err) {
-      console.error('Error:', err);
+      console.error('Question error:', err);
       setError(err instanceof Error ? err.message : 'Failed to get answer');
     } finally {
       setLoadingQuestions(prev => ({ ...prev, [tableIndex]: false }));
@@ -216,7 +188,7 @@ function App() {
                     <h3 className="text-xl font-semibold mb-4 text-gray-900">Table {index + 1}</h3>
                     <div className="grid grid-cols-1 gap-6">
                       <img
-                        src={`https://pdf-table-processor.onrender.com/download/${table.image_file}`}
+                        src={`${import.meta.env.VITE_API_URL}/download/${table.image_file}`}
                         alt={`Table ${index + 1}`}
                         className="max-w-full h-auto rounded-lg shadow-sm border border-gray-200"
                       />
@@ -249,6 +221,7 @@ function App() {
                           value={tableQuestions[index]?.question || ''}
                           onChange={(e) => handleQuestionChange(index, e.target.value)}
                           className="block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          placeholder="Ask a question about this table..."
                         />
                         <button
                           onClick={() => handleSubmitQuestion(index)}
@@ -259,9 +232,9 @@ function App() {
                           {loadingQuestions[index] ? 'Processing...' : 'Submit Question'}
                         </button>
                         {tableQuestions[index]?.answer && (
-                          <div className="mt-4">
-                            <strong>Answer:</strong>
-                            <p className="text-sm text-gray-800">{tableQuestions[index].answer}</p>
+                          <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+                            <strong className="text-blue-900">Answer:</strong>
+                            <p className="text-sm text-blue-800 mt-1">{tableQuestions[index].answer}</p>
                           </div>
                         )}
                       </div>
