@@ -4,3 +4,9 @@
 
 [build.environment]
   PYTHON_VERSION = "3.11.0"
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://pdf-table-processor.onrender.com/:splat"
+  status = 200
+  force = true
