@@ -54,21 +54,22 @@ function App() {
       const formData = new FormData();
       formData.append('file', file);
 
-      const _uploadResponse = await axios.post('/api/upload', formData);
+      const _uploadResponse = await axios.post('https://pdf-table-processor.onrender.com/upload', formData);
 
       setUploading(false);
       setProcessing(true);
 
       const processResponse = await axios.get<ProcessResponse>(
-        `/api/process/${file.name}?output_format=both`
+        `https://pdf-table-processor.onrender.com/process/${file.name}?output_format=both`
       );
 
       setResults(processResponse.data);
 
+      // Load JSON data for each table
       for (let i = 0; i < processResponse.data.tables.length; i++) {
         const table = processResponse.data.tables[i];
         if (table.json_file) {
-          const jsonResponse = await axios.get(`/api/download/${table.json_file}`);
+          const jsonResponse = await axios.get(`https://pdf-table-processor.onrender.com/download/${table.json_file}`);
           setTableData(prev => ({
             ...prev,
             [i]: jsonResponse.data
@@ -85,7 +86,7 @@ function App() {
 
   const handleDownload = async (filename: string) => {
     try {
-      const response = await axios.get(`/api/download/${filename}`, {
+      const response = await axios.get(`https://pdf-table-processor.onrender.com/download/${filename}`, {
         responseType: 'blob',
       });
 
@@ -117,10 +118,17 @@ function App() {
 
     setLoadingQuestions(prev => ({ ...prev, [tableIndex]: true }));
 
-    try {      
-      const response = await axios.post('/api/ask', {
+    try {
+      console.log('Sending request with:', {
         question: tableQuestion.question,
-        table: Object.values(tableData[tableIndex])
+        table: tableData[tableIndex]
+      });
+      
+      const response = await axios.post('https://pdf-table-processor.onrender.com/ask', {
+        question: tableQuestion.question,
+        table: Array.isArray(tableData[tableIndex]) 
+          ? tableData[tableIndex] 
+          : [tableData[tableIndex]] // Ensure table data is an array
       });
 
       setTableQuestions(prev => ({
@@ -208,7 +216,7 @@ function App() {
                     <h3 className="text-xl font-semibold mb-4 text-gray-900">Table {index + 1}</h3>
                     <div className="grid grid-cols-1 gap-6">
                       <img
-                        src={`/api/download/${table.image_file}`}
+                        src={`https://pdf-table-processor.onrender.com/download/${table.image_file}`}
                         alt={`Table ${index + 1}`}
                         className="max-w-full h-auto rounded-lg shadow-sm border border-gray-200"
                       />
