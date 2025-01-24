@@ -1,21 +1,20 @@
 [build]
-  command = "pip install -r requirements.txt && python main.py"
-  publish = "public"
+  command = "npm install && npm run build"  # Frontend build komutu
+  publish = "dist"  # Frontend build çıktısının yolu
 
 [build.environment]
-  PYTHON_VERSION = "3.11.11"
+  NODE_VERSION = "18.x"  # Node.js sürümü
 
 [[redirects]]
   from = "/api/*"
-  to = "https://pdf-table-processor.onrender.com/:splat"
+  to = "https://pdf-table-processor.onrender.com/api/:splat"  # Backend API'nize proxy
   status = 200
   force = true
 
 [[headers]]
-
   for = "/*"
-    [headers.values]
+  [headers.values]
     Access-Control-Allow-Origin = "https://pdftableprocessor.netlify.app"
-    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"  
-    Access-Control-Allow-Headers = "Content-Type, Access-Control-Allow-Headers, X-Requested-With" 
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
     Access-Control-Allow-Credentials = "true"
