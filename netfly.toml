@@ -1,7 +1,8 @@
 [build]
   command = "npm install && npm run build"  # Frontend build komutu
   publish = "dist"  # Frontend build çıktısının yolu
-
+  port = 10000
+  targetPort = 10000
 [build.environment]
   NODE_VERSION = "18.x"  # Node.js sürümü
 
