@@ -3,7 +3,7 @@
   publish = "public"
 
 [build.environment]
-  PYTHON_VERSION = "3.11.0"
+  PYTHON_VERSION = "3.11.11"
 
 [[redirects]]
   from = "/api/*"
