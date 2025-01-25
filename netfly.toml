@@ -7,7 +7,7 @@
   NODE_VERSION = "18.x"  # Node.js sürümü
 
 [[redirects]]
-  from = "/*"
+  from = "/api/*"
   to = "https://pdf-table-processor.onrender.com/:splat"  # Backend API'nize proxy
   status = 200
   force = true
