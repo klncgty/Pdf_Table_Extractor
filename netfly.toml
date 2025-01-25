@@ -3,6 +3,7 @@
   publish = "dist"
   port = 10000
   targetPort = 10000
+  functions = "netlify/functions"
 [build.environment]
   NODE_VERSION = "18.x"
 
