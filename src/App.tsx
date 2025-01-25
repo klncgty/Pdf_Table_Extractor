@@ -54,13 +54,13 @@ function App() {
       const formData = new FormData();
       formData.append('file', file);
 
-      const _uploadResponse = await axios.post('https://pdf-table-processor.onrender.com/upload', formData);
+      const _uploadResponse = await axios.post('/api/upload', formData);
 
       setUploading(false);
       setProcessing(true);
 
       const processResponse = await axios.get<ProcessResponse>(
-        `https://pdf-table-processor.onrender.com/process/${file.name}?output_format=both`
+        `/api/process/${file.name}?output_format=both`
       );
 
       setResults(processResponse.data);
@@ -69,7 +69,7 @@ function App() {
       for (let i = 0; i < processResponse.data.tables.length; i++) {
         const table = processResponse.data.tables[i];
         if (table.json_file) {
-          const jsonResponse = await axios.get(`https://pdf-table-processor.onrender.com/download/${table.json_file}`);
+          const jsonResponse = await axios.get(`/api/download/${table.json_file}`);
           setTableData(prev => ({
             ...prev,
             [i]: jsonResponse.data
@@ -86,7 +86,7 @@ function App() {
 
   const handleDownload = async (filename: string) => {
     try {
-      const response = await axios.get(`https://pdf-table-processor.onrender.com/download/${filename}`, {
+      const response = await axios.get(`/api/download/${filename}`, {
         responseType: 'blob',
       });
 
@@ -124,7 +124,7 @@ function App() {
         table: tableData[tableIndex]
       });
       
-      const response = await axios.post('https://pdf-table-processor.onrender.com/ask', {
+      const response = await axios.post('/api/ask', {
         question: tableQuestion.question,
         table: Array.isArray(tableData[tableIndex]) 
           ? tableData[tableIndex] 
