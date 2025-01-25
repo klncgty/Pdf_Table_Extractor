@@ -1,21 +1,26 @@
 [build]
-  command = "npm install && npm run build"  # Frontend build komutu
-  publish = "dist"  # Frontend build çıktısının yolu
+  command = "npm install && npm run build"
+  publish = "dist"
   port = 10000
   targetPort = 10000
 [build.environment]
-  NODE_VERSION = "18.x"  # Node.js sürümü
+  NODE_VERSION = "18.x"
 
 [[redirects]]
   from = "/api/*"
-  to = "https://pdf-table-processor.onrender.com/:splat"  # Backend API'nize proxy
+  to = "https://pdf-table-processor.onrender.com/:splat"  # Backend'e yönlendirme
   status = 200
   force = true
+  # Proxy için gerekli header'ları ekleyin
+  [redirects.headers]
+    Access-Control-Allow-Origin = "https://pdftableprocessor.netlify.app"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
 
 [[headers]]
   for = "/*"
   [headers.values]
+    # Sadece frontend için CORS ayarları
     Access-Control-Allow-Origin = "https://pdftableprocessor.netlify.app"
-    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
-    Access-Control-Allow-Headers = "Content-Type, Authorization"
-    Access-Control-Allow-Credentials = "true"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
