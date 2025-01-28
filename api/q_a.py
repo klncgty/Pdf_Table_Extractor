@@ -2,6 +2,14 @@ import os
 import pandas as pd
 from pandasai import Agent
 
+from dotenv import load_dotenv
+
+# .env dosyasını yükle
+load_dotenv()
+
+# API anahtarını çevresel değişkenden al
+api_key = os.getenv("PANDASAI_API_KEY")
+
 def ask_question(question, table_data):
     try:
         if not isinstance(table_data, list):
@@ -18,7 +26,7 @@ def ask_question(question, table_data):
     
 
         
-        os.environ["PANDASAI_API_KEY"] = "$2a$10$rBCCww6/tzHJbS.LxkKvNu6IStPbiuoY03k4Y8LX75CtDTgQHaMBu"
+      
         agent = Agent(df)
         
         
