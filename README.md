@@ -80,7 +80,7 @@ Komut çalıştıktan sonra terminalde aşağıdaki gibi bir çıktı alacaksın
 ➜  Local:   http://localhost:5173/
 ```
 
-Tarayıcınızda [http://localhost:5173/](http://localhost:5173/) adresine tıklayarak uygulamayı web üzerinde görüntüleyebilirsiniz.
+Terminalde [http://localhost:5173/](http://localhost:5173/) adresine tıklayarak uygulamayı web üzerinde görüntüleyebilirsiniz.
 
 ### 4️⃣ API'yi Çalıştırın
 
