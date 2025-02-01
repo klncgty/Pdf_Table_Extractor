@@ -58,10 +58,10 @@ npm run dev
 Komut çalıştıktan sonra terminalde aşağıdaki gibi bir çıktı alacaksınız:
 
 ```
-➜  Local:   http://localhost:5173/
+➜  Local:   http://localhost:port/
 ```
 
-Terminalde [http://localhost:5173/](http://localhost:5173/) adresine tıklayarak uygulamayı web üzerinde görüntüleyebilirsiniz.
+Terminalde [http://localhost:port/](http://localhost:port/) adresine tıklayarak uygulamayı web üzerinde görüntüleyebilirsiniz.
 
 ### 4️⃣ API'yi Çalıştırın
 
