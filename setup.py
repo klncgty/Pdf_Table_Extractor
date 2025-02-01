@@ -5,7 +5,7 @@ setup(
     author='Çağatay',
     description='A library to process tables from PDFs into csv and json formats.',
     author_email='cgtyklnc@gmail.com',
-    url='https://github.com/klncgty/Pdf_Table_Extractor',
+    url='https://github.com/klncgty/pdfXtractor',
     version="0.1.0",
     packages=find_packages(),
     install_requires=[
