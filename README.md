@@ -2,51 +2,53 @@
 
 
 
-PDF-to-CSV-JSON AI Web Application
-Effortlessly extract structured complex data tables from your PDF documents and convert it into clean, ready-to-use CSV or JSON files. Powered by cutting-edge AI and optimized for real-world use cases, this application simplifies data extraction like never before.
 
-🚀 Features
-AI-Driven Extraction: Intelligent algorithms ensure accurate data parsing from PDFs, even for complex layouts.
-User-Friendly Interface: Upload your PDF, specify the target pages, and receive a downloadable CSV-JSON in seconds.
-Advanced Error Handling: Ensures clean outputs with minimal data loss.
-Powerful Integrations: Built with support for Hugging Face models, Camelot library, and vector databases.
-🔧 Tech Stack
+PDF’den CSV-JSON AI Web Uygulaması
+PDF belgelerinizdeki karmaşık tabloları otomatik olarak çıkarın ve temiz, kullanıma hazır CSV veya JSON formatına dönüştürün. Gelişmiş AI ile desteklenen bu uygulama, veri çıkarım sürecini kolaylaştırır.
+
+🚀 Öne Çıkan Özellikler
+AI Destekli Çıkarım: Karmaşık PDF tablolarını yüksek doğrulukla işler.
+Kullanıcı Dostu Arayüz: PDF yükleyin, sayfa seçin ve anında CSV-JSON olarak indirin.
+Akıllı Hata Yönetimi: Temiz ve güvenilir çıktılar sunar.
+Güçlü Entegrasyonlar: Hugging Face modelleri, Camelot kütüphanesi ve vektör veritabanı desteği.
+🔧 Teknoloji Yığını
 Backend: Python (FastAPI), Hugging Face Transformers
 Frontend: React.js
-PDF Processing: gmft, PyPDF2
-Database: PostgreSQL
-AI Features: Custom NER and summarization models
+PDF İşleme: gmft, PyPDF2
+Veritabanı: PostgreSQL
+AI Özellikleri: Özel NER ve özetleme modelleri
+🛠 Kullanım Senaryoları
+Karmaşık Tablo Çıkarımı
+
+İç içe geçmiş başlıklar, birleştirilmiş hücreler gibi yapıları doğru işler.
+Finansal raporlar, akademik çalışmalar ve resmi belgeler için uygundur.
+RAG (Bilgiye Dayalı AI) Entegrasyonu
+
+AI iş akışlarında veri yapılandırmak için CSV'leri kullanın.
+Chatbotlar, özetleme araçları ve karar destek sistemlerinde veri kaynağı olarak değerlendirin.
+Büyük Ölçekli Veri İşleme
+
+Toplu PDF yükleyerek verileri hızla çıkarın.
+Analitik platformlara veya makine öğrenimi süreçlerine entegre edin.
+İş Zekâsı
+
+PDF raporlarından hızlı içgörüler elde edin.
+Çıkarılan verileri panolar, raporlar veya tahmin modellerinde kullanın.
+Operasyonel Otomasyon
+
+Veri giriş süreçlerini hızlandırarak manuel hataları azaltın.
+Lojistik, sağlık ve hukuk sektörlerinde tekrarlayan görevleri otomatikleştirin.
+Uyumluluk ve Denetim
+
+Finansal ve operasyonel verileri düzenleyici gerekliliklere uygun olarak çıkarın.
+İnsan müdahalesini en aza indirerek veri güvenliğini artırın.
+Belge Özetleme ve Analiz
+
+AI destekli özetleme ile belgelerden anlamlı içgörüler oluşturun.
+Araştırma ve iş kararları için veri bazlı analiz sağlayın.
 
 
-Use Cases
-This application is tailored to handle real-world scenarios where accurate and efficient PDF data extraction is critical. Here are some specific use cases:
-
-1. Complex Table Extraction
-Extract intricate and multi-layered tables from PDFs with precision.
-Handle nested headers, merged cells, and irregular column structures seamlessly.
-Ideal for financial reports, research papers, and government data with complex tabular layouts.
-2. RAG (Retrieval-Augmented Generation) Integration
-Transform extracted data into structured formats for use in AI workflows.
-Use the generated CSVs to power retrieval-based systems like chatbots, summarization tools, or decision-support applications.
-Streamline document-based knowledge retrieval pipelines.
-3. Large-Scale Data Processing
-Process bulk PDF uploads for large-scale data extraction needs.
-Generate clean CSV outputs for integration into analytics platforms or machine learning pipelines.
-4. Business Intelligence
-Enable data teams to quickly extract actionable insights from complex PDF reports.
-Use the structured CSV outputs for dashboards, reports, and predictive modeling.
-5. Automation in Operations
-Automate repetitive data extraction tasks to save time and reduce manual errors.
-Useful for industries such as logistics (invoice processing), healthcare (patient reports), and legal (contract analysis).
-6. Compliance and Audit
-Extract key financial or operational metrics for regulatory compliance and audits.
-Ensure data integrity by minimizing human intervention during the extraction process.
-7. Document Summarization and Analysis
-Leverage the extracted data to build summaries or generate insights using advanced AI models.
-Suitable for simplifying decision-making processes in research or business contexts.
-
-
-## 🚀 Kurulum Adımları
+##  Kurulum Adımları
 
 ### 1️⃣ Repoyu Klonlayın
 
@@ -93,13 +95,13 @@ uvicorn main:app --reload
 
 ## ⚠️ Önemli Uyarılar
 
-- **📂 PDF Yüklemeleri:**  
+- ** PDF Yüklemeleri:**  
   Yüklediğiniz PDF dosyaları yerel dizinde `uploads` klasörüne kaydedilecektir.
 
-- **📁 Çıktılar:**  
+- ** Çıktılar:**  
   İşlenen PDF dosyalarından elde edilen çıktılar `outputs` klasörüne kaydedilir. Bu klasörün oluşturulduğundan ve yazma izinlerinin mevcut olduğundan emin olun.
 
-- **🌐 CORS Hatası:**  
+- ** CORS Hatası:**  
   Eğer tarayıcıda aşağıdaki gibi bir hata alırsanız:
 
   ```
@@ -130,6 +132,6 @@ uvicorn main:app --reload
 
 ---
 
-🎉 Artık projeyi kendi bilgisayarınızda çalıştırmaya hazırsınız! Herhangi bir sorun yaşarsanız, lütfen GitHub Issues üzerinden bildirin.
+Herhangi bir sorun yaşarsanız, lütfen GitHub Issues üzerinden bildirin.
 
 
