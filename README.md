@@ -24,28 +24,7 @@ Karmaşık Tablo Çıkarımı
 Finansal raporlar, akademik çalışmalar ve resmi belgeler için uygundur.
 RAG (Bilgiye Dayalı AI) Entegrasyonu
 
-AI iş akışlarında veri yapılandırmak için CSV'leri kullanın.
-Chatbotlar, özetleme araçları ve karar destek sistemlerinde veri kaynağı olarak değerlendirin.
-Büyük Ölçekli Veri İşleme
 
-Toplu PDF yükleyerek verileri hızla çıkarın.
-Analitik platformlara veya makine öğrenimi süreçlerine entegre edin.
-İş Zekâsı
-
-PDF raporlarından hızlı içgörüler elde edin.
-Çıkarılan verileri panolar, raporlar veya tahmin modellerinde kullanın.
-Operasyonel Otomasyon
-
-Veri giriş süreçlerini hızlandırarak manuel hataları azaltın.
-Lojistik, sağlık ve hukuk sektörlerinde tekrarlayan görevleri otomatikleştirin.
-Uyumluluk ve Denetim
-
-Finansal ve operasyonel verileri düzenleyici gerekliliklere uygun olarak çıkarın.
-İnsan müdahalesini en aza indirerek veri güvenliğini artırın.
-Belge Özetleme ve Analiz
-
-AI destekli özetleme ile belgelerden anlamlı içgörüler oluşturun.
-Araştırma ve iş kararları için veri bazlı analiz sağlayın.
 
 
 ##  Kurulum Adımları
