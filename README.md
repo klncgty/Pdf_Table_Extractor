@@ -45,7 +45,16 @@ Projede yer alan API için gerekli Python paketlerini yüklemek üzere, projenin
 pip install -r requirements.txt
 ```
 
-### 3️⃣ Frontend'i Çalıştırın
+### 3️⃣ API'yi Çalıştırın
+
+API kodları `api` klasöründe yer almaktadır. Terminalden `api` klasörüne gidin ve FastAPI uygulamasını başlatın:
+
+```bash
+cd ../api
+uvicorn main:app --reload
+```
+
+### 4️⃣ Frontend'i Çalıştırın
 
 Frontend kodları `src` klasöründe bulunmaktadır. Terminalden `src` klasörüne gidin ve aşağıdaki komutu çalıştırın:
 
@@ -63,14 +72,6 @@ Komut çalıştıktan sonra terminalde aşağıdaki gibi bir çıktı alacaksın
 
 Terminalde [http://localhost:port/](http://localhost:port/) adresine tıklayarak uygulamayı web üzerinde görüntüleyebilirsiniz.
 
-### 4️⃣ API'yi Çalıştırın
-
-API kodları `api` klasöründe yer almaktadır. Terminalden `api` klasörüne gidin ve FastAPI uygulamasını başlatın:
-
-```bash
-cd ../api
-uvicorn main:app --reload
-```
 
 ## ⚠️ Önemli Uyarılar
 
