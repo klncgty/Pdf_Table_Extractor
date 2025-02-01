@@ -3,7 +3,7 @@
 
 
 
-PDF’den CSV-JSON AI Web Uygulaması
+PDF’den coplex tabloların CSV-JSON çıkarımı -  AI Web Uygulaması
 PDF belgelerinizdeki karmaşık tabloları otomatik olarak çıkarın ve temiz, kullanıma hazır CSV veya JSON formatına dönüştürün. Gelişmiş AI ile desteklenen bu uygulama, veri çıkarım sürecini kolaylaştırır.
 
 🚀 Öne Çıkan Özellikler
