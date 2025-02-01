@@ -152,7 +152,7 @@ function App() {
               alt="Header Image"
               className="w-full h-auto rounded-lg shadow-md mb-4"
             />
-            <p className="text-center text-gray-600">Kompleks tablolar içeren PDF yükle ve tabloları kolayca csv ve json olarak indir</p>
+            <p className="text-center text-gray-600">Kompleks tablolar için ideal</p>
           </div>
 
           <div className="mb-8">
