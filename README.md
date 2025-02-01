@@ -113,6 +113,7 @@ Terminalde [http://localhost:port/](http://localhost:port/) adresine tıklayarak
 
 - **Modeller:**  
    gmft : https://github.com/conjuncts/gmft  ve pandasai
+   maz model : https://arxiv.org/abs/2110.00061
 
 ---
 
