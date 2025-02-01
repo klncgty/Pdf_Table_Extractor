@@ -46,3 +46,90 @@ Leverage the extracted data to build summaries or generate insights using advanc
 Suitable for simplifying decision-making processes in research or business contexts.
 
 
+## 🚀 Kurulum Adımları
+
+### 1️⃣ Repoyu Klonlayın
+
+Terminal veya komut istemcisinde aşağıdaki komutu çalıştırarak repoyu kendi bilgisayarınıza çekin:
+
+```bash
+git clone https://github.com/klncgty/pdfXtractor.git
+```
+
+### 2️⃣ Python Gereksinimlerini Yükleyin
+
+Projede yer alan API için gerekli Python paketlerini yüklemek üzere, projenin kök dizininde bulunan `requirements.txt` dosyasını kullanın:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3️⃣ Frontend'i Çalıştırın
+
+Frontend kodları `src` klasöründe bulunmaktadır. Terminalden `src` klasörüne gidin ve aşağıdaki komutu çalıştırın:
+
+```bash
+cd src
+npm install
+npm run dev
+```
+
+Komut çalıştıktan sonra terminalde aşağıdaki gibi bir çıktı alacaksınız:
+
+```
+➜  Local:   http://localhost:5173/
+```
+
+Tarayıcınızda [http://localhost:5173/](http://localhost:5173/) adresine tıklayarak uygulamayı web üzerinde görüntüleyebilirsiniz.
+
+### 4️⃣ API'yi Çalıştırın
+
+API kodları `api` klasöründe yer almaktadır. Terminalden `api` klasörüne gidin ve FastAPI uygulamasını başlatın:
+
+```bash
+cd ../api
+uvicorn main:app --reload
+```
+
+## ⚠️ Önemli Uyarılar
+
+- **📂 PDF Yüklemeleri:**  
+  Yüklediğiniz PDF dosyaları yerel dizinde `uploads` klasörüne kaydedilecektir.
+
+- **📁 Çıktılar:**  
+  İşlenen PDF dosyalarından elde edilen çıktılar `outputs` klasörüne kaydedilir. Bu klasörün oluşturulduğundan ve yazma izinlerinin mevcut olduğundan emin olun.
+
+- **🌐 CORS Hatası:**  
+  Eğer tarayıcıda aşağıdaki gibi bir hata alırsanız:
+
+  ```
+  Access to XMLHttpRequest at 'http://localhost:8000/upload' from origin 'http://localhost:5173' has been blocked by CORS policy
+  ```
+
+  `api/main.py` dosyasında aşağıdaki gibi `allow_origins=["*"]` ekleyerek sorunu çözebilirsiniz:
+
+  ```python
+  from fastapi.middleware.cors import CORSMiddleware
+
+  app.add_middleware(
+      CORSMiddleware,
+      allow_origins=["*"],  # Tüm domainlere izin verir
+      allow_credentials=True,
+      allow_methods=["*"],
+      allow_headers=["*"],
+  )
+  ```
+
+## 📌 Ek Bilgiler
+
+- **Frontend ve API İletişimi:**  
+  Frontend, API ile etkileşimde bulunarak PDF dosyalarını yükler ve işler. Her iki tarafın da aynı anda çalıştığından emin olun.
+
+- **Geliştirme:**  
+  Projeye katkıda bulunmadan önce, lütfen [Git Branch Rehberi](https://www.atlassian.com/git/tutorials/using-branches)'ni inceleyin.
+
+---
+
+🎉 Artık projeyi kendi bilgisayarınızda çalıştırmaya hazırsınız! Herhangi bir sorun yaşarsanız, lütfen GitHub Issues üzerinden bildirin.
+
+
