@@ -108,7 +108,11 @@ Terminalde [http://localhost:port/](http://localhost:port/) adresine tıklayarak
   Frontend, API ile etkileşimde bulunarak PDF dosyalarını yükler ve işler. Her iki tarafın da aynı anda çalıştığından emin olun.
 
 - **Geliştirme:**  
-  Projeye katkıda bulunmadan önce, lütfen [Git Branch Rehberi](https://www.atlassian.com/git/tutorials/using-branches)'ni inceleyin.
+ ....
+
+
+- **Modeller:**  
+   gmft : https://github.com/conjuncts/gmft  ve pandasai
 
 ---
 
