@@ -1,4 +1,5 @@
-![Ekran görüntüsü 2025-02-03 161444](https://github.com/user-attachments/assets/573dc0d9-4066-42ba-ab8e-9f0e8060f56a)
+
+![0203](https://github.com/user-attachments/assets/b17a42e5-a524-417a-bfb5-6a64f38e232b)
 
 
 PDF’den coplex tabloların CSV-JSON çıkarımı -  AI Web Uygulaması
