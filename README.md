@@ -3,13 +3,13 @@
 
 
 PDF’den coplex tabloların CSV-JSON çıkarımı -  AI Web Uygulaması
-PDF belgelerinizdeki karmaşık tabloları otomatik olarak çıkarın ve temiz, kullanıma hazır CSV veya JSON formatına dönüştürün. Gelişmiş AI ile desteklenen bu uygulama, veri çıkarım sürecini kolaylaştırır.
+PDF belgelerinizdeki karmaşık tabloları otomatik olarak çıkarın ve temiz, kullanıma hazır CSV veya JSON formatına dönüştürün. Gelişmiş AI ile desteklenen bu uygulama, veri çıkarım sürecini kolaylaştırır ve agent sayesinde tabloya sorular sorabilirsiniz.
 
 🚀  Öne Çıkan Özellikler 
 AI Destekli Çıkarım: Karmaşık PDF tablolarını yüksek doğrulukla işler.
 Kullanıcı Dostu Arayüz: PDF yükleyin, sayfa seçin ve anında CSV-JSON olarak indirin.
 Akıllı Hata Yönetimi: Temiz ve güvenilir çıktılar sunar.
-Güçlü Entegrasyonlar: Hugging Face modelleri, Camelot kütüphanesi ve vektör veritabanı desteği.
+Güçlü Entegrasyonlar: Hugging Face modelleri, gmft kütüphanesi, agentic ai ve vektör veritabanı desteği.
 🔧 Teknoloji Yığını
 Backend: Python (FastAPI), Hugging Face Transformers
 Frontend: React.js
