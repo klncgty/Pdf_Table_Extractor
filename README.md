@@ -1,5 +1,5 @@
-![0203](https://github.com/user-attachments/assets/b17a42e5-a524-417a-bfb5-6a64f38e232b)
 
+![Uploading 0203.gif…]()
 
 
 
@@ -7,18 +7,22 @@
 
 PDF belgelerinizdeki karmaşık tabloları otomatik olarak çıkarın ve temiz, kullanıma hazır CSV veya JSON formatına dönüştürün. Gelişmiş AI ile desteklenen bu uygulama, veri çıkarım sürecini kolaylaştırır ve agent sayesinde tabloya sorular sorabilirsiniz.
 
-🚀  Öne Çıkan Özellikler 
-_ AI Destekli Çıkarım: Karmaşık PDF tablolarını yüksek doğrulukla işler.
-_ Kullanıcı Dostu Arayüz: PDF yükleyin, sayfa seçin ve anında CSV-JSON olarak indirin.
-_ Akıllı Hata Yönetimi: Temiz ve güvenilir çıktılar sunar.
-_ Güçlü Entegrasyonlar: Hugging Face modelleri, gmft kütüphanesi, agentic ai ve vektör veritabanı desteği.
-🔧 Teknoloji Yığını
+# 🚀  Öne Çıkan Özellikler 
+
+AI Destekli Çıkarım: Karmaşık PDF tablolarını yüksek doğrulukla işler.
+Kullanıcı Dostu Arayüz: PDF yükleyin, sayfa seçin ve anında CSV-JSON olarak indirin.
+Akıllı Hata Yönetimi: Temiz ve güvenilir çıktılar sunar.
+Güçlü Entegrasyonlar: Hugging Face modelleri, gmft kütüphanesi, agentic ai ve vektör veritabanı desteği.
+
+# 🔧 Teknoloji Yığını
+
 Backend: Python (FastAPI), Hugging Face Transformers
 Frontend: React.js
 PDF İşleme: gmft, PyPDF2
 Veritabanı: PostgreSQL
 AI Özellikleri: Özel NER ve özetleme modelleri
-🛠 Kullanım Senaryoları
+
+# 🛠 Kullanım Senaryoları
 Karmaşık Tablo Çıkarımı
 
 İç içe geçmiş başlıklar, birleştirilmiş hücreler gibi yapıları doğru işler.
