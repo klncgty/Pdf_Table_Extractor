@@ -26,14 +26,9 @@ const Landing = () => {
         </Link>
         
         {/* Added GIF section */}
-        <div className="mt-16 animate-fade-in [animation-delay:2500ms] opacity-0">
-          <img 
-            src="/1.gif" 
-            alt="Demo" 
-            className="mx-auto rounded-lg shadow-2xl border-2 border-white/10"
-            style={{ maxWidth: '800px', width: '90%' }}
-          />
-        </div>
+        <video  autoPlay loop muted mediaGroup='false' className="mt-8 w-full max-w-3xl mx-auto">
+          <source src="/0203.mp4" type="video/mp4" />
+        </video>
       </main>
     </div>
   );
