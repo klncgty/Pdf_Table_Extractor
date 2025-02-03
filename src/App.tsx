@@ -1,25 +1,46 @@
 import React, { useState } from 'react';
-import { Upload, Download, Send } from 'lucide-react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { Upload, Download, Send, FileUp, Sparkles, ArrowRight, Coffee } from 'lucide-react';
 import axios from 'axios';
 
-interface ProcessedTable {
-  data_file?: string;
-  json_file?: string;
-  csv_file?: string;
-  image_file: string;
-}
+// Landing Page Component
+const Landing = () => {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A]">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+        <Sparkles className="w-24 h-24 text-blue-500 mx-auto mb-8 animate-pulse" />
+        <h1 className="text-7xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-teal-500 to-lime-600 mb-6 animate-fade-in [animation-delay:500ms] opacity-0">
+          pdfXtractor
+        </h1>
+        <h1 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-600 mb-6 shadow-lg animate-fade-in [animation-delay:1000ms] opacity-0">
+          AI-Powered PDF Processing
+        </h1>
+        <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto animate-fade-in [animation-delay:1500ms] opacity-0">
+          Transform your PDF documents into actionable data with advanced AI processing.
+        </p>
+        <Link
+          to="/process"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-medium transition-colors animate-fade-in [animation-delay:2000ms] opacity-0"
+        >
+          Get Started
+        </Link>
+        
+        {/* Added GIF section */}
+        <div className="mt-16 animate-fade-in [animation-delay:2500ms] opacity-0">
+          <img 
+            src="/1.gif" 
+            alt="Demo" 
+            className="mx-auto rounded-lg shadow-2xl border-2 border-white/10"
+            style={{ maxWidth: '800px', width: '90%' }}
+          />
+        </div>
+      </main>
+    </div>
+  );
+};
 
-interface ProcessResponse {
-  tables: ProcessedTable[];
-  total_tables: number;
-}
-
-interface TableQuestion {
-  question: string;
-  answer: string | null;
-}
-
-function App() {
+// PDF Processing Page Component
+const ProcessPage = () => {
   const [file, setFile] = useState<File | null>(null);
   const [processing, setProcessing] = useState(false);
   const [results, setResults] = useState<ProcessResponse | null>(null);
@@ -28,6 +49,28 @@ function App() {
   const [tableQuestions, setTableQuestions] = useState<{ [key: number]: TableQuestion }>({});
   const [tableData, setTableData] = useState<{ [key: number]: any }>({});
   const [loadingQuestions, setLoadingQuestions] = useState<{ [key: number]: boolean }>({});
+  const [dragActive, setDragActive] = useState(false);
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      setFile(e.dataTransfer.files[0]);
+      setError(null);
+    }
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -60,7 +103,6 @@ function App() {
 
       setResults(processResponse.data);
 
-      // Load JSON data for each table
       for (let i = 0; i < processResponse.data.tables.length; i++) {
         const table = processResponse.data.tables[i];
         if (table.json_file) {
@@ -78,7 +120,6 @@ function App() {
       setProcessing(false);
     }
   };
-  
 
   const handleDownload = async (filename: string) => {
     try {
@@ -115,16 +156,11 @@ function App() {
     setLoadingQuestions(prev => ({ ...prev, [tableIndex]: true }));
 
     try {
-      console.log('Sending request with:', {
-        question: tableQuestion.question,
-        table: tableData[tableIndex]
-      });
-      
       const response = await axios.post('http://localhost:8000/ask', {
         question: tableQuestion.question,
         table: Array.isArray(tableData[tableIndex]) 
           ? tableData[tableIndex] 
-          : [tableData[tableIndex]] // Ensure table data is an array
+          : [tableData[tableIndex]]
       });
 
       setTableQuestions(prev => ({
@@ -143,172 +179,247 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white text-gray-800 rounded-lg shadow-xl p-8 mb-8">
-          <div className="mb-6">
-            <img
-              src="src/3.png"
-              alt="Header Image"
-              className="w-full h-auto rounded-lg shadow-md mb-4"
-            />
-            <p className="text-center text-gray-600">Kompleks tablolar için ideal</p>
-          </div>
-
-          <div className="mb-8">
-            <label className="block text-lg font-semibold text-gray-700 mb-2">
-              Upload PDF File
-            </label>
-            <div className="flex items-center gap-4">
-              <input
-                type="file"
-                accept=".pdf"
-                onChange={handleFileChange}
-                className="block w-full text-sm text-gray-500
-                  file:mr-4 file:py-2 file:px-4
-                  file:rounded-full file:border-0
-                  file:text-sm file:font-semibold
-                  file:bg-blue-50 file:text-blue-700
-                  hover:file:bg-blue-100 transition duration-300"
-              />
-              <button
-                onClick={handleUpload}
-                disabled={!file || uploading || processing}
-                className="inline-flex items-center px-6 py-3 border border-transparent
-                  text-base font-medium rounded-full shadow-sm text-white bg-blue-600 
-                  hover:bg-blue-700 focus:outline-none focus:ring-2 
-                  focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50
-                  transition duration-300 ease-in-out transform hover:-translate-y-1"
+    <div className="min-h-screen bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A]">
+      <nav className="border-b border-white/10 bg-black/20 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <Link to="/" className="flex items-center">
+              <Sparkles className="w-8 h-8 text-blue-500" />
+              <span className="ml-2 text-xl font-bold text-white">pdfXtractor</span>
+            </Link>
+            <div className="flex items-center gap-6">
+              <a
+                href="https://buymeacoffee.com/cgtyklnc1t"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-amber-400 transition-colors flex items-center gap-2"
               >
-                <Upload className="w-5 h-5 mr-2" />
-                {uploading ? 'Uploading...' : processing ? 'Processing...' : 'Generate Tables'}
-              </button>
+                <Coffee className="w-5 h-5" />
+                <span>buy me cup of coffee :)</span>
+              </a>
+              <a
+                href="https://github.com/klncgty"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 hover:text-white transition-colors"
+              >
+                GitHub
+              </a>
             </div>
           </div>
+        </div>
+      </nav>
 
-          {error && (
-            <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-8 rounded-r-lg">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm text-red-700">{error}</p>
-                </div>
-              </div>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {!results ? (
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-12">
+              <h1 className="text-4xl sm:text-5xl font-bold text-white mb-6 leading-tight overflow-hidden">
+                <span className="animate-slide-in-left-right inline-block [animation-delay:500ms]">
+                  Transform Your PDF Tables
+                </span>{' '}
+                <span className="animate-slide-in-right-left inline-block [animation-delay:800ms]">
+                  with AI
+                </span>
+              </h1>
+              <p className="text-xl text-gray-400 mb-8">
+                Extract, analyze, and get insights from your PDF tables instantly
+              </p>
             </div>
-          )}
 
-          {results && (
-            <div>
-              
-              <h2 className="text-2xl font-bold mb-6 text-gray-900">
-                {results.total_tables} tables processed
-              </h2>
-              
-              <div className="space-y-8">
-                {results.tables.map((table, index) => (
-                  <div key={index} className="border rounded-lg p-6 shadow-md bg-gray-50">
-                    <h3 className="text-xl font-semibold mb-4 text-gray-900">Table {index + 1}</h3>
-                    <div className="grid grid-cols-1 gap-6">
-                      <img
-                        src={`http://localhost:8000/download/${table.image_file}`}
-                        alt={`Table ${index + 1}`}
-                        className="max-w-full h-auto rounded-lg shadow-sm border border-gray-200"
-                      />
-                      <div className="flex gap-4">
-                        {table.json_file && (
-                          <button
-                            onClick={() => handleDownload(table.json_file!)}
-                            className="flex items-center text-sm px-4 py-2 bg-green-500 text-white 
-                              rounded-full hover:bg-green-600 transition duration-300"
-                          >
-                            <Download className="w-4 h-4 mr-2" />
-                            Download JSON
-                          </button>
-                        )}
-                        {table.csv_file && (
-                          <button
-                            onClick={() => handleDownload(table.csv_file!)}
-                            className="flex items-center text-sm px-4 py-2 bg-purple-500 text-white 
-                              rounded-full hover:bg-purple-600 transition duration-300"
-                          >
-                            <Download className="w-4 h-4 mr-2" />
-                            Download CSV
-                          </button>
-                        )}
-                      </div>
-
-                      {/* Question and Answer Section for each table */}
-                      <div className="mt-6 space-y-4">
-                        <div className="flex gap-2">
-                          <input
-                            type="text"
-                            value={tableQuestions[index]?.question || ''}
-                            onChange={(e) => handleQuestionChange(index, e.target.value)}
-                            className="flex-1 p-3 rounded-full border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            placeholder={"Tablo " + (index + 1) + "'e bir soru sorun"}
-
-                          />
-                          <button
-                            onClick={() => handleSubmitQuestion(index)}
-                            disabled={!tableData[index] || loadingQuestions[index]}
-                            className="px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 disabled:opacity-50 transition duration-300 flex items-center"
-                          >
-                            {loadingQuestions[index] ? (
-                              <>
-                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Loading...
-                              </>
-                            ) : (
-                              <>
-                                <Send className="w-4 h-4 mr-2" />
-                                Sor
-                              </>
-                            )}
-                          </button>
-                        </div>
-                        
-                        {/* Display answer if exists */}
-                        {tableQuestions[index]?.answer && (
-                          <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                            <p className="font-medium text-blue-800 mb-2">Cevap:</p>
-                            <p className="text-blue-700">{tableQuestions[index].answer}</p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
+            <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 shadow-2xl border border-white/10">
+              <div className="flex flex-col items-center">
+                <div className="mb-8">
+                  <div className="p-4 bg-blue-500/10 rounded-full">
+                    <FileUp className="w-8 h-8 text-blue-500" />
                   </div>
-                ))}
+                </div>
+
+                <div 
+                  className={`w-full border-2 border-dashed rounded-xl p-8 mb-6 text-center
+                    ${dragActive ? 'border-blue-500 bg-blue-500/10' : 'border-white/10 hover:border-white/20'}
+                    transition-all duration-200`}
+                  onDragEnter={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDragOver={handleDrag}
+                  onDrop={handleDrop}
+                >
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    onChange={handleFileChange}
+                    className="hidden"
+                    id="file-upload"
+                  />
+                  <label 
+                    htmlFor="file-upload"
+                    className="cursor-pointer"
+                  >
+                    <p className="text-gray-400">
+                      {file ? file.name : 'Drop your PDF here or click to browse'}
+                    </p>
+                  </label>
+                </div>
+
+                <button
+                  onClick={handleUpload}
+                  disabled={!file || uploading || processing}
+                  className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 
+                    hover:to-blue-800 disabled:from-blue-800 disabled:to-blue-900 disabled:cursor-not-allowed 
+                    rounded-xl font-medium transition-all duration-200 flex items-center justify-center gap-2"
+                >
+                  {uploading ? 'Uploading...' : processing ? 'Processing...' : (
+                    <>
+                      Process Tables
+                      <ArrowRight className="w-5 h-5" />
+                    </>
+                  )}
+                </button>
+
+                {error && (
+                  <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-xl w-full">
+                    <p className="text-red-400 text-sm">{error}</p>
+                  </div>
+                )}
               </div>
             </div>
-          )}
-        </div>
 
-        {/* LinkedIn Logo */}
-        <div className="fixed bottom-4 right-4">
-          <a
-            href="https://www.linkedin.com/in/klncgty/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"
-          >
-            <img
-              src="src/4.png"
-              alt="LinkedIn Logo"
-              className="w-12 h-12 rounded-full shadow-lg"
-            />
-          </a>
-        </div>
-      </div>
+            <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                {
+                  icon: <Upload className="w-6 h-6 text-blue-500" />,
+                  title: 'Easy Upload',
+                  description: 'Drag & drop your PDF files or browse to upload'
+                },
+                {
+                  icon: <Sparkles className="w-6 h-6 text-purple-500" />,
+                  title: 'AI-Powered',
+                  description: 'Advanced AI processing for accurate table extraction'
+                },
+                {
+                  icon: <Download className="w-6 h-6 text-green-500" />,
+                  title: 'Multiple Formats',
+                  description: 'Download results in JSON or CSV format'
+                }
+              ].map((feature, index) => (
+                <div key={index} className="bg-white/5 backdrop-blur-xl rounded-xl p-6 border border-white/10">
+                  <div className="p-3 bg-white/5 rounded-lg inline-block mb-4">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
+                  <p className="text-gray-400">{feature.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="max-w-4xl mx-auto space-y-8">
+            <h2 className="text-3xl font-bold text-white text-center mb-8">
+              Processed Tables ({results.total_tables})
+            </h2>
+            
+            {results.tables.map((table, index) => (
+              <div key={index} className="bg-white/5 backdrop-blur-xl rounded-xl p-6 border border-white/10">
+                <h3 className="text-xl font-semibold mb-6 text-white">Table {index + 1}</h3>
+                <div className="space-y-6">
+                  <img
+                    src={`http://localhost:8000/download/${table.image_file}`}
+                    alt={`Table ${index + 1}`}
+                    className="w-full rounded-lg border border-white/10"
+                  />
+                  
+                  <div className="flex gap-4">
+                    {table.json_file && (
+                      <button
+                        onClick={() => handleDownload(table.json_file!)}
+                        className="flex items-center px-4 py-2 bg-green-500/20 hover:bg-green-500/30 
+                          text-green-400 rounded-lg transition-colors duration-200"
+                      >
+                        <Download className="w-4 h-4 mr-2" />
+                        JSON
+                      </button>
+                    )}
+                    {table.csv_file && (
+                      <button
+                        onClick={() => handleDownload(table.csv_file!)}
+                        className="flex items-center px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 
+                          text-purple-400 rounded-lg transition-colors duration-200"
+                      >
+                        <Download className="w-4 h-4 mr-2" />
+                        CSV
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={tableQuestions[index]?.question || ''}
+                        onChange={(e) => handleQuestionChange(index, e.target.value)}
+                        className="flex-1 px-4 py-2 bg-black/20 border border-white/10 rounded-lg
+                          focus:outline-none focus:border-blue-500/50 text-white placeholder-gray-500"
+                        placeholder="Ask a question about this table..."
+                      />
+                      <button
+                        onClick={() => handleSubmitQuestion(index)}
+                        disabled={!tableData[index] || loadingQuestions[index]}
+                        className="px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400
+                          disabled:bg-blue-500/10 disabled:text-blue-500/50 disabled:cursor-not-allowed 
+                          rounded-lg transition-colors duration-200 flex items-center"
+                      >
+                        {loadingQuestions[index] ? (
+                          <Upload className="w-5 h-5 animate-spin" />
+                        ) : (
+                          <Send className="w-5 h-5" />
+                        )}
+                      </button>
+                    </div>
+                    
+                    {tableQuestions[index]?.answer && (
+                      <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                        <p className="text-blue-300">{tableQuestions[index].answer}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </main>
     </div>
+  );
+};
+
+// Interfaces
+interface ProcessedTable {
+  data_file?: string;
+  json_file?: string;
+  csv_file?: string;
+  image_file: string;
+}
+
+interface ProcessResponse {
+  tables: ProcessedTable[];
+  total_tables: number;
+}
+
+interface TableQuestion {
+  question: string;
+  answer: string | null;
+}
+
+// Main App Component
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/process" element={<ProcessPage />} />
+      </Routes>
+    </Router>
   );
 }
 
 export default App;
-
