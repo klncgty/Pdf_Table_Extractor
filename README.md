@@ -1,7 +1,5 @@
- ![3](https://github.com/user-attachments/assets/40803f67-fc2d-4b14-bdf3-f98b73472cf6)
-
-
-
+![Ekran görüntüsü 2025-02-03 161444](https://github.com/user-attachments/assets/573dc0d9-4066-42ba-ab8e-9f0e8060f56a)
+![Ekran görüntüsü 2025-02-03 162404](https://github.com/user-attachments/assets/d51b8170-e5fc-4090-9e6d-0617190a3e44)
 
 PDF’den coplex tabloların CSV-JSON çıkarımı -  AI Web Uygulaması
 PDF belgelerinizdeki karmaşık tabloları otomatik olarak çıkarın ve temiz, kullanıma hazır CSV veya JSON formatına dönüştürün. Gelişmiş AI ile desteklenen bu uygulama, veri çıkarım sürecini kolaylaştırır.
